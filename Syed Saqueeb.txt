@@ -1,0 +1,77 @@
+Day 1:                                                                                                                       Date:5/05/25
+
+
+🔑 What is a Primary Key?
+
+A Primary Key in SQL is a column (or a combination of columns) that uniquely identifies each record in a table. It ensures that no two rows have the same value and cannot contain NULL values.
+
+
+1.A Primary Key uniquely identifies each record in a table.
+
+2.It must be unique and cannot be NULL.
+
+3.Each table can have only one primary key, but it can be made of multiple columns (composite key).
+
+EXAMPLE :
+
+CREATE TABLE Departments (
+    DepartmentID INT PRIMARY KEY,
+    DepartmentName VARCHAR(100)
+);
+
+
+Foreign Key (FK) - The Relationship Builder
+A Foreign Key is like a class section in school—it connects students to their respective classes. While multiple students may belong to the same class, each class must exist in the Class table first!
+📌 Rules for a Foreign Key:
+- It links one table to another
+- It refers to the Primary Key in another table
+- It can have duplicate values
+
+EXAMPLE:
+
+CREATE TABLE Employees (
+    EmployeeID INT PRIMARY KEY,
+    EmployeeName VARCHAR(100),
+    Email VARCHAR(100),
+    DepartmentID INT,
+    FOREIGN KEY (DepartmentID) REFERENCES Departments(DepartmentID)
+);
+
+When we use this code in SQL with the starting  from creating database to create table it shown like
+
+CODE:
+
+
+CREATE DATABASE WainfoTechnologies;
+USE WainfoTechnologies;
+
+
+CREATE TABLE Departments (
+    DepartmentID INT PRIMARY KEY,
+    DepartmentName VARCHAR(100)
+);
+
+INSERT INTO Departments (DepartmentID, DepartmentName) 
+VALUES 
+    (1, 'IT'),
+    (2, 'HR'),
+    (3, 'Finance');
+
+
+CREATE TABLE Employees (
+    EmployeeID INT PRIMARY KEY,
+    EmployeeName VARCHAR(100),
+    Email VARCHAR(100),
+    DepartmentID INT,
+    FOREIGN KEY (DepartmentID) REFERENCES Departments(DepartmentID)
+);
+
+INSERT INTO Employees (EmployeeID, EmployeeName, Email, DepartmentID) 
+VALUES 
+    (4, 'Shaikh Saied', 'saied1104@gmail.com', 1);
+
+	
+	select *from Departments
+	select *from Employees
+
+

@@ -1,0 +1,217 @@
+Day 2:                                                                                                                     Date:6/05/2025
+
+                                                     Topic :   Stored Procedure
+
+A stored procedure is like a recipe saved inside a database. It contains a set of instructions (written in SQL) that the database can follow to do specific tasks—like adding new information, updating existing data, deleting records.
+
+Instead of writing the same SQL commands over and over, you can just call the stored procedure whenever you need it. It can take inputs (like a customer's ID or name), give back results, and make your application faster, easier to manage, and more secure.
+
+.Stored procedures can accept input parameters, return output values, and are commonly used to improve performance
+.A stored procedure is a prepared SQL code that we can save, so the code can be reused over and over again. 
+
+FOR EXAMPLE:
+
+    1)Insert Data into Table:-
+
+
+CREATE PROCEDURE InsertCustomer
+    @Name NVARCHAR(100),
+    @Email NVARCHAR(100)
+AS
+BEGIN
+    INSERT INTO Customers (Name, Email)
+    VALUES (@Name, @Email);
+END;
+
+
+IN Stored Procedures we have to use one line code to insert data 
+Stored Procedures Code:- (EXEC InsertCustomer @Name = 'John Doe', @Email = 'john@example.com';)
+
+
+  
+  2)Update Data in Table
+
+     CREATE PROCEDURE UpdateCustomerEmail
+    @CustomerID INT,
+    @NewEmail NVARCHAR(100)
+AS
+BEGIN
+    UPDATE Customers
+    SET Email = @NewEmail
+    WHERE CustomerID = @CustomerID;
+END;
+
+Execution:-  (EXEC UpdateCustomerEmail @CustomerID = 1, @NewEmail = 'newemail@example.com';)
+ 
+
+
+  3) Delete Data from Table
+
+CREATE PROCEDURE DeleteCustomer
+    @CustomerID INT
+AS
+BEGIN
+    DELETE FROM Customers
+    WHERE CustomerID = @CustomerID;
+END;
+
+Execution:-  (EXEC DeleteCustomer @CustomerID = 1;)
+
+ single line of code is enough to insert, update, or delete the data.
+
+
+
+
+1)When we execute the INSERT query on our database
+CODE:
+
+create database shop
+use shop
+
+CREATE TABLE Account (
+    AccountID INT PRIMARY KEY ,
+    Username VARCHAR(50) UNIQUE NOT NULL,
+    PasswordHash VARCHAR(255) NOT NULL,
+    Email VARCHAR(100) UNIQUE NOT NULL,
+    PhoneNumber VARCHAR(15),
+);
+
+CREATE PROCEDURE InsertAccount
+
+    @AccountID INT,
+    @Username VARCHAR(50),
+    @PasswordHash VARCHAR(255),
+    @Email VARCHAR(100),
+    @PhoneNumber VARCHAR(15)
+AS
+BEGIN
+    INSERT INTO Account (AccountID, Username, PasswordHash, Email, PhoneNumber)
+    VALUES (@AccountID, @Username, @PasswordHash, @Email, @PhoneNumber);
+END;
+
+EXEC InsertAccount 
+    @AccountID = 5, 
+    @Username = 'isaak', 
+    @PasswordHash = 'abc123hash', 
+    @Email = 'ait@gmail.com', 
+    @PhoneNumber = '9637124690';
+
+select * from Account
+********************************************************************
+Out put after INSERT Data:-
+ID       USERNAME       PASSWORD        EMAIL           PHONENUMBER
+
+1	Syed Saqueeb	abc123hash     syed@gmail.com	  8055103932
+2	Khan Arbaz	abc123hash     arbaz@gmail.com	  8055737359
+3	Farhan Chaush	abc123hash     farhan@gmail.com	  8605495302
+4	Shaikh Saied	abc123hash     saied@gmail.com	  7219387787
+5	isaak	        abc123hash      ait@gmail.com	  9637124690
+*********************************************************************
+
+------------------------------------------------------------------------------
+
+2)When we execute the UPDATE query on our database, we update the name, password, and email of the 5th user." 
+CODE:
+
+CREATE PROCEDURE UpdateAccount
+    @AccountID INT,
+    @Username VARCHAR(50),
+    @PasswordHash VARCHAR(255),
+    @Email VARCHAR(100),
+    @PhoneNumber VARCHAR(15)
+AS
+BEGIN
+    UPDATE Account
+    SET Username = @Username,
+        PasswordHash = @PasswordHash,
+        Email = @Email,
+        PhoneNumber = @PhoneNumber
+    WHERE AccountID = @AccountID;
+END;
+
+EXEC UpdateAccount 
+    @AccountID = 5, 
+    @Username = 'isaak siddique', 
+    @PasswordHash = 'password123', 
+    @Email = 'isaak@gmail.com', 
+    @PhoneNumber = '9637124690';
+
+select * from Account
+*************************************************
+out put after UPDATE Data:-
+
+1	Syed Saqueeb	abc123hash	syed@gmail.com	8055103932
+2	Khan Arbaz	abc123hash	arbaz@gmail.com	8055737359
+3	Farhan Chaush	abc123hash	farhan@gmail.com	8605495302
+4	Shaikh Saied	abc123hash	saied@gmail.com	7219387787
+5	isaak siddique	password123	isaak@gmail.com	9637124690
+--------------------------------------------------------------------
+
+3)When we execute the SELECT query on our database, we can SELECT the user's by username."
+CODE:-
+
+create database shop
+use shop
+
+CREATE TABLE Account (
+    AccountID INT PRIMARY KEY ,
+    Username VARCHAR(50) UNIQUE NOT NULL,
+    PasswordHash VARCHAR(255) NOT NULL,
+    Email VARCHAR(100) UNIQUE NOT NULL,
+    PhoneNumber VARCHAR(15),
+);
+
+CREATE PROCEDURE GetAccountByUsername
+    @Username VARCHAR(50)
+AS
+BEGIN
+    SELECT * FROM Account WHERE Username = @Username;
+END;
+
+EXEC GetAccountByUsername @Username = 'Farhan Chaush';
+
+
+
+select * from Account
+***********************************************************
+OUT PUT
+
+3	Farhan Chaush	abc123hash	farhan@gmail.com	8605495302
+----------------------------------------------------------------------------
+
+4)When we execute the DELETE query on our database AFTER DELETING the 5th user."
+CODE:-
+
+create database shop
+use shop
+
+CREATE TABLE Account (
+    AccountID INT PRIMARY KEY ,
+    Username VARCHAR(50) UNIQUE NOT NULL,
+    PasswordHash VARCHAR(255) NOT NULL,
+    Email VARCHAR(100) UNIQUE NOT NULL,
+    PhoneNumber VARCHAR(15),
+);
+
+CREATE PROCEDURE DeleteAccount
+    @AccountID INT
+AS
+BEGIN
+    DELETE FROM Account
+    WHERE AccountID = @AccountID;
+END;
+
+EXEC DeleteAccount @AccountID = 4;
+
+
+select * from Account
+************************************
+OUT PUT 
+
+
+1	Syed Saqueeb	abc123hash	syed@gmail.com	8055103932
+2	Khan Arbaz	abc123hash	arbaz@gmail.com	8055737359
+3	Farhan Chaush	abc123hash	farhan@gmail.com	8605495302
+5	isaak siddique	password123	isaak@gmail.com	9637124690
+--------------------------------------------------------------------------------
+
